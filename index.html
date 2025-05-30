@@ -9,14 +9,14 @@
   background-image: url('https://minoritynurse.com/wp-content/uploads/2014/11/lung-cancer.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-  background-attachment: scroll;
+  background-attachment: fixed;
   background-position: center;
   padding: 20px;
     }
     .form-container, .puma-container, .dropdown-container {
       max-width: 600px;
       margin: 20px auto;
-      background: #fff;
+      background: rgba(255, 255, 255, 0.9);
       padding: 20px;
       border: 2px solid black;
       border-radius: 8px;
@@ -273,6 +273,11 @@
 
     form.addEventListener('submit', e => {
       e.preventDefault();
+       
+      if (!document.getElementById('pumaScoreInput').value) {
+    alert('Sila tekan "Calculate Score" dahulu untuk mengira PUMA Score.');
+    return;
+  }
       spinner.style.display = 'inline-block';
 
       const formData = new FormData(form);
