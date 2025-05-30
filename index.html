@@ -9,24 +9,47 @@
       background: #f9f9f9;
       padding: 20px;
     }
-    .form-container {
+    .form-container, .puma-container {
       max-width: 600px;
-      margin: auto;
+      margin: 20px auto;
       background: #fff;
       padding: 20px;
       border: 2px solid black;
       border-radius: 8px;
+      position: relative;
     }
     h2, h3 {
       text-align: center;
     }
-    label {
-      display: block;
-      margin: 10px 0 5px;
-      font-weight: bold;
+    .floating-label {
+      position: relative;
+      margin-bottom: 20px;
     }
-    input[type="text"],
-    input[type="number"] {
+    .floating-label input {
+      width: 100%;
+      padding: 12px 8px 8px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    .floating-label label {
+      position: absolute;
+      top: 10px;
+      left: 8px;
+      color: #777;
+      background: white;
+      padding: 0 4px;
+      transition: 0.2s;
+      pointer-events: none;
+    }
+    .floating-label input:focus + label,
+    .floating-label input:not(:placeholder-shown) + label {
+      top: -10px;
+      left: 6px;
+      font-size: 12px;
+      color: #333;
+    }
+    input[type="number"], select {
       width: 100%;
       padding: 8px;
       margin-bottom: 10px;
@@ -36,17 +59,29 @@
     .section {
       margin-top: 20px;
     }
-    .radio-group {
+    .checkbox-group {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       gap: 10px;
       margin-bottom: 10px;
     }
-    .radio-group label {
+    .checkbox-group label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       font-weight: normal;
+      padding-right: 8px;
     }
-    button {
-      width: 100%;
+    .checkbox-group input[type="checkbox"] {
+      margin-left: 10px;
+    }
+    .button-container {
+      display: flex;
+      align-items: center;
+    }
+    .submit-button {
+      position: relative;
+      flex: 1;
       padding: 12px;
       background: black;
       color: white;
@@ -54,75 +89,184 @@
       border-radius: 6px;
       font-size: 16px;
       cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
-    button:hover {
+    .submit-button:hover {
       background: #333;
+    }
+    .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid #ccc;
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    #result {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
     }
   </style>
 </head>
 <body>
+  <div class="puma-container">
+    <h2>PUMA Score Calculator</h2>
+    <form id="pumaForm">
+      <label>1. Gender:
+        <select name="sex">
+          <option value="0">Female</option>
+          <option value="1">Male</option>
+        </select>
+      </label>
+      <label>2. Age:
+        <select name="age">
+          <option value="0">40–49 years</option>
+          <option value="1">50–59 years</option>
+          <option value="2">60 years and above</option>
+        </select>
+      </label>
+      <label>3. Smoking history (pack-years):
+        <select name="smoking">
+          <option value="0">Less than 20</option>
+          <option value="1">20–30</option>
+          <option value="2">More than 30</option>
+        </select>
+      </label>
+      <label>4. Dyspnea (shortness of breath):
+        <select name="dyspnea">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </label>
+      <label>5. Chronic phlegm (≥3 months):
+        <select name="phlegm">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </label>
+      <label>6. Chronic cough:
+        <select name="cough">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </label>
+      <label>7. Advised to perform Spirometry before:
+        <select name="advice">
+          <option value="0">No</option>
+          <option value="1">Yes</option>
+        </select>
+      </label>
+      <button type="button" onclick="calculate()">Calculate Score</button>
+    </form>
+    <div id="result"></div>
+  </div>
+
   <div class="form-container">
     <h2>SARINGAN KESIHATAN PARU-PARU</h2>
-    <h3>PROGRAM INISIATIF KEBANGSAAN<br>KLINIK KESIHATAN BATU 9</h3>
+    <h3>KLINIK KESIHATAN BATU 9</h3>
 
     <form id="health-form">
-      <label for="nama">Nama:</label>
-      <input type="text" name="nama" required>
+      <div class="floating-label">
+        <input type="text" name="nama" placeholder=" " required>
+        <label for="nama">Nama</label>
+      </div>
 
-      <label for="nric">NRIC / Passport:</label>
-      <input type="text" name="nric" required>
+      <div class="floating-label">
+        <input type="text" name="nric" placeholder=" " required>
+        <label for="nric">NRIC / Passport</label>
+      </div>
 
       <label for="puma">PUMA Score:</label>
-      <input type="number" name="puma" required>
+      <input type="number" name="puma" id="pumaScoreInput" required>
 
       <div class="section">
-        <label>A. Merokok</label>
-        <div class="radio-group">
-          <label><input type="radio" name="merokok" value="Masih merokok - Ya" required> Masih merokok - Ya</label>
-          <label><input type="radio" name="merokok" value="Masih merokok - Tidak"> Masih merokok - Tidak</label>
-          <label><input type="radio" name="merokok" value="Pernah merokok - Ya"> Pernah merokok - Ya</label>
-          <label><input type="radio" name="merokok" value="Pernah merokok - Tidak"> Pernah merokok - Tidak</label>
-          <label><input type="radio" name="merokok" value="Terdedah kepada asap rokok - Ya"> Asap rokok - Ya</label>
-          <label><input type="radio" name="merokok" value="Terdedah kepada asap rokok - Tidak"> Asap rokok - Tidak</label>
-          <label><input type="radio" name="merokok" value="Tidak merokok"> Tidak merokok</label>
+        <label><strong>A. Merokok</strong></label>
+        <div class="checkbox-group">
+          <label>Masih merokok <input type="checkbox" name="merokok" value="Masih merokok"></label>
+          <label>Pernah merokok <input type="checkbox" name="merokok" value="Pernah merokok"></label>
+          <label>Terdedah kepada asap rokok <input type="checkbox" name="merokok" value="Terdedah kepada asap rokok"></label>
+          <label>Tidak merokok <input type="checkbox" name="merokok" value="Tidak merokok"></label>
         </div>
       </div>
 
       <div class="section">
-        <label>B. Pencemaran Alam Sekitar</label>
-        <div class="radio-group">
-          <label><input type="radio" name="pencemaran" value="Terdedah kepada pencemaran" required> Terdedah kepada pencemaran</label>
-          <label><input type="radio" name="pencemaran" value="Tiada pencemaran"> Tiada pencemaran</label>
+        <label><strong>B. Pencemaran Alam Sekitar</strong></label>
+        <div class="checkbox-group">
+          <label>Terdedah kepada pencemaran <input type="checkbox" name="pencemaran" value="Terdedah kepada pencemaran"></label>
+          <label>Tidak terdedah <input type="checkbox" name="pencemaran" value="Tidak terdedah"></label>
         </div>
       </div>
 
       <div class="section">
-        <label>C. Pendedahan di Tempat Kerja</label>
-        <div class="radio-group">
-          <label><input type="radio" name="tempat_kerja" value="Ya" required> Ya</label>
-          <label><input type="radio" name="tempat_kerja" value="Tiada"> Tiada</label>
+        <label><strong>C. Pendedahan di Tempat Kerja</strong></label>
+        <div class="checkbox-group">
+          <label>Pekerjaan berisiko <input type="checkbox" name="tempat_kerja" value="Pekerjaan berisiko"></label>
+          <label>Tiada risiko pekerjaan <input type="checkbox" name="tempat_kerja" value="Tiada risiko pekerjaan"></label>
         </div>
       </div>
 
-      <button type="submit">Hantar</button>
+      <div class="button-container">
+        <button type="submit" class="submit-button">
+          Hantar
+          <div class="spinner" id="spinner"></div>
+        </button>
+      </div>
     </form>
   </div>
 
   <script>
+    function calculate() {
+      const form = document.forms['pumaForm'];
+      const fields = ['sex', 'age', 'smoking', 'dyspnea', 'phlegm', 'cough', 'advice'];
+      let score = 0;
+      fields.forEach(field => {
+        score += parseInt(form[field].value);
+      });
+
+      let message = 'PUMA Score: ' + score + '/9 — ';
+      message += score >= 5
+        ? 'High risk. Spirometry examination is recommended.'
+        : 'Low to moderate risk.';
+
+      document.getElementById('result').innerText = message;
+      document.getElementById('pumaScoreInput').value = score;
+    }
+
     const form = document.getElementById('health-form');
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyc5csQToQiG4m5JcDKU1K5tD8e3xQi40gDtrPOtkVzpXJ-TNHULQOFjuQ_lbPuDfCjXA/exec'; 
-    // Replace with your deployed Google Apps Script URL
+    const spinner = document.getElementById('spinner');
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyc5csQToQiG4m5JcDKU1K5tD8e3xQi40gDtrPOtkVzpXJ-TNHULQOFjuQ_lbPuDfCjXA/exec';
 
     form.addEventListener('submit', e => {
       e.preventDefault();
-      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+      spinner.style.display = 'inline-block';
+
+      const formData = new FormData(form);
+      const checkboxesToJoin = ['merokok', 'pencemaran', 'tempat_kerja'];
+
+      checkboxesToJoin.forEach(name => {
+        const values = formData.getAll(name);
+        formData.delete(name);
+        formData.append(name, values.join(', '));
+      });
+
+      fetch(scriptURL, { method: 'POST', body: formData })
         .then(response => {
           alert('Maklumat berjaya dihantar!');
           form.reset();
+          spinner.style.display = 'none';
         })
         .catch(error => {
           alert('Ralat berlaku. Sila cuba lagi.');
           console.error('Error!', error.message);
+          spinner.style.display = 'none';
         });
     });
   </script>
