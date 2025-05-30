@@ -1,9 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Hello world</title>
+  <title>Simple Form</title>
 </head>
 <body>
-<title>Hello world</title>
+  <h1>Contact Form</h1>
+  <form id="contact-form">
+    <input name="name" placeholder="Name" required><br><br>
+    <input name="email" placeholder="Email" required><br><br>
+    <textarea name="message" placeholder="Your message"></textarea><br><br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const scriptURL = 'PASTE_YOUR_WEB_APP_URL_HERE';
+    const form = document.getElementById('contact-form');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+        .then(response => alert('Submitted successfully!'))
+        .catch(error => alert('Error occurred!'));
+    });
+  </script>
 </body>
 </html>
