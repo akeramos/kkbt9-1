@@ -126,7 +126,9 @@
   </style>
 </head>
 <body>
-  <div class="dropdown-container">
+  <div class="dropdown-container" style="
+       background: rgba(135, 206, 250, 0.8);
+       ">
     <h2> KUMPULAN BERISIKO BAGI MENJALANI SARINGAN KESIHATAN PARU-PARU</h2>
     <label for="reviewDropdown">Sila pilih jenih semakan:</label>
     <select id="reviewDropdown" onchange="showReview(this.value)">
@@ -272,7 +274,7 @@
       let message = 'PUMA Score: ' + score + '/9 — ';
       message += score >= 5
         ? 'High risk. Spirometry examination is recommended.'
-        : 'Low to moderate risk.';
+        : 'Low to moderate risk. For yearly PUMA assessment';
 
       document.getElementById('result').innerText = message;
       document.getElementById('pumaScoreInput').value = score;
