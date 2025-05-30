@@ -1,26 +1,129 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Simple Form</title>
+  <meta charset="UTF-8">
+  <title>Saringan Kesihatan Paru-paru</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      padding: 20px;
+    }
+    .form-container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border: 2px solid black;
+      border-radius: 8px;
+    }
+    h2, h3 {
+      text-align: center;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+    }
+    .section {
+      margin-top: 20px;
+    }
+    .radio-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .radio-group label {
+      font-weight: normal;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #333;
+    }
+  </style>
 </head>
 <body>
-  <h1>Contact Form</h1>
-  <form id="contact-form">
-    <input name="name" placeholder="Name" required><br><br>
-    <input name="email" placeholder="Email" required><br><br>
-    <textarea name="message" placeholder="Your message"></textarea><br><br>
-    <button type="submit">Submit</button>
-  </form>
+  <div class="form-container">
+    <h2>SARINGAN KESIHATAN PARU-PARU</h2>
+    <h3>PROGRAM INISIATIF KEBANGSAAN<br>KLINIK KESIHATAN BATU 9</h3>
+
+    <form id="health-form">
+      <label for="nama">Nama:</label>
+      <input type="text" name="nama" required>
+
+      <label for="nric">NRIC / Passport:</label>
+      <input type="text" name="nric" required>
+
+      <label for="puma">PUMA Score:</label>
+      <input type="number" name="puma" required>
+
+      <div class="section">
+        <label>A. Merokok</label>
+        <div class="radio-group">
+          <label><input type="radio" name="merokok" value="Masih merokok - Ya" required> Masih merokok - Ya</label>
+          <label><input type="radio" name="merokok" value="Masih merokok - Tidak"> Masih merokok - Tidak</label>
+          <label><input type="radio" name="merokok" value="Pernah merokok - Ya"> Pernah merokok - Ya</label>
+          <label><input type="radio" name="merokok" value="Pernah merokok - Tidak"> Pernah merokok - Tidak</label>
+          <label><input type="radio" name="merokok" value="Terdedah kepada asap rokok - Ya"> Asap rokok - Ya</label>
+          <label><input type="radio" name="merokok" value="Terdedah kepada asap rokok - Tidak"> Asap rokok - Tidak</label>
+          <label><input type="radio" name="merokok" value="Tidak merokok"> Tidak merokok</label>
+        </div>
+      </div>
+
+      <div class="section">
+        <label>B. Pencemaran Alam Sekitar</label>
+        <div class="radio-group">
+          <label><input type="radio" name="pencemaran" value="Terdedah kepada pencemaran" required> Terdedah kepada pencemaran</label>
+          <label><input type="radio" name="pencemaran" value="Tiada pencemaran"> Tiada pencemaran</label>
+        </div>
+      </div>
+
+      <div class="section">
+        <label>C. Pendedahan di Tempat Kerja</label>
+        <div class="radio-group">
+          <label><input type="radio" name="tempat_kerja" value="Ya" required> Ya</label>
+          <label><input type="radio" name="tempat_kerja" value="Tiada"> Tiada</label>
+        </div>
+      </div>
+
+      <button type="submit">Hantar</button>
+    </form>
+  </div>
 
   <script>
-    const scriptURL = 'PASTE_YOUR_WEB_APP_URL_HERE';
-    const form = document.getElementById('contact-form');
+    const form = document.getElementById('health-form');
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyc5csQToQiG4m5JcDKU1K5tD8e3xQi40gDtrPOtkVzpXJ-TNHULQOFjuQ_lbPuDfCjXA/exec'; 
+    // Replace with your deployed Google Apps Script URL
 
     form.addEventListener('submit', e => {
       e.preventDefault();
-      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-        .then(response => alert('Submitted successfully!'))
-        .catch(error => alert('Error occurred!'));
+      fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+        .then(response => {
+          alert('Maklumat berjaya dihantar!');
+          form.reset();
+        })
+        .catch(error => {
+          alert('Ralat berlaku. Sila cuba lagi.');
+          console.error('Error!', error.message);
+        });
     });
   </script>
 </body>
