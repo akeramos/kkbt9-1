@@ -9,7 +9,7 @@
       background: #f9f9f9;
       padding: 20px;
     }
-    .form-container, .puma-container {
+    .form-container, .puma-container, .dropdown-container {
       max-width: 600px;
       margin: 20px auto;
       background: #fff;
@@ -117,6 +117,19 @@
   </style>
 </head>
 <body>
+  <div class="dropdown-container">
+    <h2> KUMPULAN BERISIKO BAGI MENJALANI SARINGAN KESIHATAN PARU-PARU</h2>
+    <label for="reviewDropdown">Sila pilih jenih semakan:</label>
+    <select id="reviewDropdown" onchange="showReview(this.value)">
+      <option value="">-- Pilih --</option>
+      <option value="asthma">Asthma</option>
+      <option value="copd">COPD</option>
+      <option value="lungcancer">Lung Cancer</option>
+      <option value="tuberculosis">Pulmonary TB</option>
+    </select>
+    <div id="reviewText" class="section"></div>
+  </div>
+
   <div class="puma-container">
     <h2>PUMA Score Calculator</h2>
     <form id="pumaForm">
@@ -171,8 +184,7 @@
 
   <div class="form-container">
     <h2>SARINGAN KESIHATAN PARU-PARU</h2>
-    <h3>KLINIK KESIHATAN BATU 9</h3>
-
+  
     <form id="health-form">
       <div class="floating-label">
         <input type="text" name="nama" placeholder=" " required>
@@ -184,8 +196,8 @@
         <label for="nric">NRIC / Passport</label>
       </div>
 
-      <label for="puma">PUMA Score:</label>
-      <input type="number" name="puma" id="pumaScoreInput" required>
+      <label for="puma"><strong>PUMA Score:</strong></label>
+      <input type="number" name="puma" id="pumaScoreInput" required readonly>
 
       <div class="section">
         <label><strong>A. Merokok</strong></label>
@@ -238,6 +250,17 @@
 
       document.getElementById('result').innerText = message;
       document.getElementById('pumaScoreInput').value = score;
+    }
+
+    function showReview(value) {
+      const reviewText = document.getElementById('reviewText');
+      const reviews = {
+        asthma: `<ul><li>Family history of asthma</li><li>Allergies</li><li>Viral respiratory infections</li><li>Occupational exposures</li><li>Smoking</li><li>Air pollution</li><li>Obesity</li></ul>`,
+        copd: `<ul><li>Age 40 years and above</li><li>History of smoking</li><li>Long-term exposure to irritants (air pollution, fumes, dust)</li><li>Alpha-1 antitrypsin (AAT) deficiency</li><li>Combination of the above</li></ul>`,
+        lungcancer: `<ul><li>Age 50–80 years</li><li>Current/former smoker</li><li>Secondhand smoke exposure</li><li>Ionizing radiation (radon)</li><li>Occupational exposures (asbestos, diesel, silica, etc.)</li><li>Air pollution</li><li>Family history of lung cancer</li><li>Medical history (pneumonia, COPD, TB)</li></ul>`,
+        tuberculosis: `<ul><li>Contact of TB case</li><li>People living with HIV (PLHIV)</li><li>Healthcare workers (HCWs)</li><li>Institutional inmates</li><li>Chronic illnesses (COPD, diabetes, ESRD)</li><li>Transplant or cancer patients, steroid users</li><li>Vulnerable groups (Orang Asli, homeless)</li><li>Substance abuse program clients</li></ul>`
+      };
+      reviewText.innerHTML = reviews[value] || '';
     }
 
     const form = document.getElementById('health-form');
