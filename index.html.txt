@@ -1,27 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Simple Form</title>
+  <title>Hello world</title>
 </head>
 <body>
-  <h1>Contact Form</h1>
-  <form id="contact-form">
-    <input name="name" placeholder="Name" required><br><br>
-    <input name="email" placeholder="Email" required><br><br>
-    <textarea name="message" placeholder="Your message"></textarea><br><br>
-    <button type="submit">Submit</button>
-  </form>
 
-  <script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwz5PqaTL4UVyxxzD3KHMBw9D9PgDgCA91w59dmV7wyElo10wmFEqsaZL7tlBC6cTQt5A/exec';
-    const form = document.getElementById('contact-form');
-
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-        .then(response => alert('Submitted successfully!'))
-        .catch(error => alert('Error occurred!'));
-    });
-  </script>
 </body>
 </html>
