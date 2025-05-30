@@ -60,6 +60,11 @@
       border: 1px solid #aaa;
       border-radius: 4px;
     }
+    
+    input[name="nama"],
+    input[name="nric"] {
+      text-transform: uppercase;
+    }
     .section {
       margin-top: 20px;
     }
@@ -191,12 +196,12 @@
   
     <form id="health-form">
       <div class="floating-label">
-        <input type="text" name="nama" placeholder=" " required>
+        <input type="text" name="nama" placeholder=" " required autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false">
         <label for="nama">Nama</label>
       </div>
 
       <div class="floating-label">
-        <input type="text" name="nric" placeholder=" " required>
+        <input type="text" name="nric" placeholder=" " required autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false">
         <label for="nric">NRIC / Passport</label>
       </div>
 
@@ -278,11 +283,14 @@
     alert('Sila tekan "Calculate Score" dahulu untuk mengira PUMA Score.');
     return;
   }
+      form.nama.value = form.nama.value.toUpperCase();
+      form.nric.value = form.nric.value.toUpperCase();
+      
       spinner.style.display = 'inline-block';
 
       const formData = new FormData(form);
       const checkboxesToJoin = ['merokok', 'pencemaran', 'tempat_kerja'];
-
+           
       checkboxesToJoin.forEach(name => {
         const values = formData.getAll(name);
         formData.delete(name);
