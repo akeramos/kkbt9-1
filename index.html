@@ -328,6 +328,8 @@
         .then(response => {
           alert('Maklumat berjaya dihantar!');
           form.reset();
+          document.getElementById('pumaScoreInput').value = '';  // Clear PUMA score field
+          document.getElementById('result').innerText = '';     // Clear score message
           spinner.style.display = 'none';
         })
         .catch(error => {
