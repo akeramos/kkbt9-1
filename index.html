@@ -421,7 +421,7 @@
 
 	// Risk groups
  	const asthma = collectCheckboxValues("asthma_risk");
-  	const copd = collectCheckboxValues("copd_risk");
+  const copd = collectCheckboxValues("copd_risk");
  	const lungcancer = collectCheckboxValues("lungcancer_risk");
 	const tuberculosis = collectCheckboxValues("tuberculosis_risk");
 	const merokok = collectCheckboxValues("merokok");
@@ -459,14 +459,28 @@
     	form.reset();
     	document.getElementById("result").innerText = "";
     	document.getElementById("pumaScoreInput").value = "";
-  	})
+    
+    // Clear risk checkboxes outside the form manually
+      const riskCheckboxNames = [
+       "asthma_risk",
+       "copd_risk",
+       "lungcancer_risk",
+       "tuberculosis_risk"
+      ];
+    
+    riskCheckboxNames.forEach(name => {
+      document.querySelectorAll(`input[name="${name}"]:checked`).forEach(cb => {
+        cb.checked = false;
+      });
+    });
+  })
   	.catch(err => {
     	spinner.style.display = "none";
     	console.error("Submission error:", err);
     	alert("Ralat semasa penghantaran. Sila cuba semula.");
             	 });
       });
+       
     </script>
-
 </body>
 </html>
