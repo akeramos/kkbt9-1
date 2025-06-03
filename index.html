@@ -430,8 +430,8 @@
 
 	// Prepare data object
       const payload = {
-    	nama: data.get("nama"),
-   	nric: data.get("nric"),
+    	nama: data.get("nama").toUpperCase(),
+   	nric: data.get("nric").toUpperCase(),
     	puma: data.get("puma"),
    	asthma,
    	copd,
