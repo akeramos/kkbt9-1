@@ -325,7 +325,7 @@
           <option value="1">Yes</option>
         </select>
       </label>
-      <label>7. Advised to perform Spirometry before:
+      <label>7. Any advised to perform Spirometry before:
         <select name="advice">
           <option value="0">No</option>
           <option value="1">Yes</option>
@@ -391,7 +391,10 @@
   <div class="spinner" id="spinnerCopy"></div>
 </button>
 <textarea id="summaryPreview" rows="12" style="width: 100%; margin-top: 10px; display: none;" readonly></textarea>
-
+<!--Recommendation area-->
+<div id="lungCancerAlert" style="display: none; background-color: #ffcccc; color: red; font-weight: bold; padding: 10px; margin-top: 10px; border: 2px solid red; border-radius: 6px; text-align: center;">
+  HIGH RISK GROUP: SUGGEST FOR SCREENING OF LUNG CANCER
+</div>
     </form>
   </div>
 
@@ -406,7 +409,7 @@
 
       let message = 'PUMA Score: ' + score + '/9 — ';
       message += score >= 5
-        ? 'High risk. Spirometry examination is recommended.'
+        ? 'High Risk. Spirometry examination is recommended.'
         : 'Low to moderate risk. For yearly PUMA assessment';
 
       document.getElementById('result').innerText = message;
@@ -549,7 +552,29 @@ B. FAKTOR RISIKO LAIN:
     	alert("Ralat semasa penghantaran. Sila cuba semula.");
             	 });
       });
-       
+
+    // Recomendation Box
+    const lungCancerCheckboxes = document.querySelectorAll('input[name="lungcancer_risk"]');
+  lungCancerCheckboxes.forEach(cb => cb.addEventListener('change', checkLungCancerRisk));
+
+  function checkLungCancerRisk() {
+    const checked = Array.from(document.querySelectorAll('input[name="lungcancer_risk"]:checked')).map(cb => cb.value);
+
+    const hasAge = checked.includes("Age 50–80 years");
+    const smoker = checked.includes("Current/former smoker");
+    const occupationalOrPollution = checked.includes("Occupational exposures") || checked.includes("Ionizing radiation") || checked.includes("Air pollution");
+    const familyHistoryOrMedical = checked.includes("Family history of lung cancer") || checked.includes("Medical history");
+
+    const highRisk =
+      hasAge &&
+      (
+        smoker ||
+        (occupationalOrPollution && familyHistoryOrMedical)
+      );
+
+    const alertBox = document.getElementById("lungCancerAlert");
+    alertBox.style.display = highRisk ? "block" : "none";
+  }     
     </script>
 </body>
 </html>
