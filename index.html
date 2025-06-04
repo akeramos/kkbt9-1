@@ -257,7 +257,7 @@
     <div class="section">
       <h3>Lung Cancer</h3>
       <ul>
-        <li><label><input type="checkbox" name="lungcancer_risk" value="Age 50–80 years" /> Age 50–80 years</label></li>
+        <li><label><input type="checkbox" name="lungcancer_risk" value="Age 50–70 years" /> Age 50–70 years</label></li>
         <li><label><input type="checkbox" name="lungcancer_risk" value="Current/former smoker" /> Current/former smoker</label></li>
         <li><label><input type="checkbox" name="lungcancer_risk" value="Secondhand smoke exposure" /> Secondhand smoke exposure</label></li>
         <li><label><input type="checkbox" name="lungcancer_risk" value="Ionizing radiation" /> Ionizing radiation</label></li>
@@ -560,7 +560,7 @@ B. FAKTOR RISIKO LAIN:
   function checkLungCancerRisk() {
     const checked = Array.from(document.querySelectorAll('input[name="lungcancer_risk"]:checked')).map(cb => cb.value);
 
-    const hasAge = checked.includes("Age 50–80 years");
+    const hasAge = checked.includes("Age 50–70 years");
     const smoker = checked.includes("Current/former smoker");
     const occupationalOrPollution = checked.includes("Occupational exposures") || checked.includes("Ionizing radiation") || checked.includes("Air pollution");
     const familyHistoryOrMedical = checked.includes("Family history of lung cancer") || checked.includes("Medical history");
