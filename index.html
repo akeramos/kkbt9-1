@@ -378,12 +378,6 @@
           <label>Tiada risiko pekerjaan <input type="checkbox" name="tempat_kerja" value="Tiada risiko pekerjaan"></label>
         </div>
       </div>
-      <!--Copy document into text button -->
-      <div class="button-container">
-      <button type="button" class="submit-button" onclick="copySummary()">
-        Salin Ringkasan<div class="spinner" id="spinner"></div>
-      </button>
-      </div>
       <!--Submit button-->
       <div class="button-container">
         <button type="submit" class="submit-button">
@@ -391,6 +385,11 @@
           <div class="spinner" id="spinner"></div>
         </button>
       </div>
+      <!--Copy document into text button -->
+      <button type="button" class="submit-button" onclick="copySummary()" style="background-color:red; color:white; margin-top:5px;">
+  Salin Ringkasan
+  <div class="spinner" id="spinner"></div>
+</button>
     </form>
   </div>
 
@@ -411,7 +410,7 @@
       document.getElementById('result').innerText = message;
       document.getElementById('pumaScoreInput').value = score;
     }
-
+  <!--Copy Summary-->
     function copySummary() {
     const form = document.forms['health-form'];
     const pumaScore = document.getElementById('pumaScoreInput').value;
