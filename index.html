@@ -423,8 +423,8 @@
 
     // Helper function to get comma-separated checked values or "Tiada"
     function getCheckedValues(name) {
-      const checkboxes =        document.querySelectorAll(`input[name="${name}"]:checked`);
- return checkboxes.length ? Array.from(checkboxes).map(cb => cb.value).join(', ') : 'Tiada';
+      const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+      return checkboxes.length ? Array.from(checkboxes).map(cb => cb.value).join(', ') : 'Tiada';
   }
 
   // Collect all risk group values
@@ -479,7 +479,7 @@ Risiko Tempat Kerja: ${workplace}`;
 
 	// Risk groups
  	const asthma = collectCheckboxValues("asthma_risk");
-  const copd = collectCheckboxValues("copd_risk");
+  	const copd = collectCheckboxValues("copd_risk");
  	const lungcancer = collectCheckboxValues("lungcancer_risk");
 	const tuberculosis = collectCheckboxValues("tuberculosis_risk");
 	const merokok = collectCheckboxValues("merokok");
