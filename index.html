@@ -386,7 +386,7 @@
         </button>
       </div>
       <!--Copy document into text button -->
-      <button type="button" class="submit-button" onclick="copySummary()" style="background-color:red; color:white; margin-top:5px;">
+      <button type="button" class="submit-button" onclick="copySummary()"   style="background-color:red; color:white; margin-top:5px;">
   Salin Ringkasan
   <div class="spinner" id="spinnerCopy"></div>
 </button>
@@ -411,54 +411,58 @@
       document.getElementById('pumaScoreInput').value = score;
     }
   <!--Copy Summary-->
-    function copySummary() {
-    const spinner = document.getElementById('spinnerCopy');
-    spinner.style.display = 'inline-block'; // Show spinner  
-      
-    const form = document.forms['health-form'];
-    const pumaScore = document.getElementById('pumaScoreInput').value;
-    const nama = form['nama'].value.trim();
-    const nric = form['nric'].value.trim();
     
+    function copySummary() {
+      const spinner = document.getElementById('spinnerCopy');
+      spinner.style.display = 'inline-block'; // Show the spinner
 
-    // Helper to collect checked values from groups
+      const form = document.forms['health-form'];
+      const pumaScore = document.getElementById('pumaScoreInput')?.value || '';
+      const nama = form['nama']?.value.trim() || '';
+      const nric = form['nric']?.value.trim() || '';
+
+    // Helper function to get comma-separated checked values or "Tiada"
     function getCheckedValues(name) {
-      const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
-      return Array.from(checkboxes).map(cb => cb.value).join(', ') || 'Tiada';
-    }
+      const checkboxes =        document.querySelectorAll(`input[name="${name}"]:checked`);
+ return checkboxes.length ? Array.from(checkboxes).map(cb => cb.value).join(', ') : 'Tiada';
+  }
 
-    // Risks by category
-    const asthma = getCheckedValues('asthma_risk');
-    const copd = getCheckedValues('copd_risk');
-    const cancer = getCheckedValues('lungcancer_risk');
-    const tb = getCheckedValues('tuberculosis_risk');
-    const smoking = getCheckedValues('merokok');
-    const pollution = getCheckedValues('pencemaran');
-    const workplace = getCheckedValues('tempat_kerja');
+  // Collect all risk group values
+      const asthma = getCheckedValues('asthma_risk');
+      const copd = getCheckedValues('copd_risk');
+      const cancer = getCheckedValues('lungcancer_risk');
+      const tb = getCheckedValues('tuberculosis_risk');
+      const smoking = getCheckedValues('merokok');
+      const pollution = getCheckedValues('pencemaran');
+      const workplace = getCheckedValues('tempat_kerja');
 
-    // Format text
-    const summary = 
-    `Nama: ${nama}
+  // Format the summary text
+      const summary = 
+`Nama: ${nama}
 NRIC: ${nric}
 PUMA Score: ${pumaScore}
-Risiko asthma: ${asthma}
+Risiko Asthma: ${asthma}
 Risiko COPD: ${copd}
-Risiko Lung cancer: ${cancer}
-Risiko: Pulmonary TB: ${tb}
-Status rokok: ${smoking}
+Risiko Kanser Paru-paru: ${cancer}
+Risiko Pulmonary TB: ${tb}
+Status Merokok: ${smoking}
 Risiko Pencemaran Udara: ${pollution}
-Risiko tempat kerja: ${workplace}`;
+Risiko Tempat Kerja: ${workplace}`;
 
-    // Copy to clipboard
-    navigator.clipboard.writeText(summary).then(() => {
-      alert('Text copied!');
-    }).catch(err => {
-      alert('Error: ' + err);
-    }).finally(() => {
-      spinner.style.display = 'none'; // Hide spinner after done
+  // Copy to clipboard
+  navigator.clipboard.writeText(summary)
+    .then(() => {
+      alert('Berjaya disalin!');
+    })
+    .catch(err => {
+      alert('Ralat semasa menyalin: ' + err);
+    })
+    .finally(() => {
+      spinner.style.display = 'none'; // Hide the spinner once done
     });
-  }
-      
+}
+  <!--Copy Summary End-->
+  
      document.getElementById("health-form").addEventListener("submit", function(e) {
 	e.preventDefault();
 
