@@ -19,7 +19,7 @@
     body {
   font-family: 'Roboto', sans-serif;
   font-size: clamp(0.95rem, 1.5vw, 1rem);
-  background-image: url('https://wallpapers.com/images/high/professional-background-kt963tnn91ts60un.webp');
+  background-color: #3e0029;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
@@ -388,7 +388,7 @@
       <!--Copy document into text button -->
       <button type="button" class="submit-button" onclick="copySummary()" style="background-color:red; color:white; margin-top:5px;">
   Salin Ringkasan
-  <div class="spinner" id="spinner"></div>
+  <div class="spinner" id="spinnerCopy"></div>
 </button>
     </form>
   </div>
@@ -412,10 +412,14 @@
     }
   <!--Copy Summary-->
     function copySummary() {
+    const spinner = document.getElementById('spinnerCopy');
+    spinner.style.display = 'inline-block'; // Show spinner  
+      
     const form = document.forms['health-form'];
     const pumaScore = document.getElementById('pumaScoreInput').value;
     const nama = form['nama'].value.trim();
     const nric = form['nric'].value.trim();
+    
 
     // Helper to collect checked values from groups
     function getCheckedValues(name) {
@@ -450,6 +454,8 @@ Risiko tempat kerja: ${workplace}`;
       alert('Text copied!');
     }).catch(err => {
       alert('Error: ' + err);
+    }).finally(() => {
+      spinner.style.display = 'none'; // Hide spinner after done
     });
   }
       
