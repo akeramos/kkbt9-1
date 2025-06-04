@@ -412,55 +412,60 @@
     }
   <!--Copy Summary-->
     
-    function copySummary() {
-      const spinner = document.getElementById('spinnerCopy');
-      spinner.style.display = 'inline-block'; // Show the spinner
+   function copySummary() {
+    const spinner = document.getElementById('spinnerCopy');
+    spinner.style.display = 'inline-block'; // Show the spinner
 
-      const form = document.forms['health-form'];
-      const pumaScore = document.getElementById('pumaScoreInput')?.value || '';
-      const nama = form['nama']?.value.trim() || '';
-      const nric = form['nric']?.value.trim() || '';
+    const form = document.forms['health-form'];
+    const pumaScore = document.getElementById('pumaScoreInput')?.value || '';
+    const nama = form['nama']?.value.trim().toUpperCase() || '';
+    const nric = form['nric']?.value.trim().toUpperCase() || '';
 
-    // Helper function to get comma-separated checked values or "Tiada"
+    // Helper to extract selected checkbox values or fallback
     function getCheckedValues(name) {
       const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
       return checkboxes.length ? Array.from(checkboxes).map(cb => cb.value).join(', ') : 'Tiada';
+    }
+
+    // Risk factor sections
+    const asthma = getCheckedValues('asthma_risk');
+    const copd = getCheckedValues('copd_risk');
+    const cancer = getCheckedValues('lungcancer_risk');
+    const tb = getCheckedValues('tuberculosis_risk');
+    const smoking = getCheckedValues('merokok');
+    const pollution = getCheckedValues('pencemaran');
+    const workplace = getCheckedValues('tempat_kerja');
+
+    // Formatted multi-line summary in Malay
+    const summary =
+`NAMA: ${nama}
+NRIC/PASSPORT: ${nric}
+PUMA SCORE: ${pumaScore}
+
+A. RISIKO PENYAKIT:
+- Risiko ASTHMA: ${asthma}
+- Risiko COPD: ${copd}
+- Risiko KANSER PARU-PARU: ${cancer}
+- Risiko TIBI (TB): ${tb}
+
+B. FAKTOR RISIKO LAIN:
+- STATUS MEROKOK: ${smoking}
+- PENDEDAHAN PENCEMARAN UDARA: ${pollution}
+- PENDEDAHAN DI TEMPAT KERJA: ${workplace}`;
+
+    // Clipboard API copy
+    navigator.clipboard.writeText(summary)
+      .then(() => {
+        alert('Ringkasan berjaya disalin ke papan klip!');
+      })
+      .catch(err => {
+        alert('Ralat semasa menyalin: ' + err);
+      })
+      .finally(() => {
+        spinner.style.display = 'none'; // Hide the spinner after process
+      });
   }
 
-  // Collect all risk group values
-      const asthma = getCheckedValues('asthma_risk');
-      const copd = getCheckedValues('copd_risk');
-      const cancer = getCheckedValues('lungcancer_risk');
-      const tb = getCheckedValues('tuberculosis_risk');
-      const smoking = getCheckedValues('merokok');
-      const pollution = getCheckedValues('pencemaran');
-      const workplace = getCheckedValues('tempat_kerja');
-
-  // Format the summary text
-      const summary = 
-`Nama: ${nama}
-NRIC: ${nric}
-PUMA Score: ${pumaScore}
-Risiko Asthma: ${asthma}
-Risiko COPD: ${copd}
-Risiko Kanser Paru-paru: ${cancer}
-Risiko Pulmonary TB: ${tb}
-Status Merokok: ${smoking}
-Risiko Pencemaran Udara: ${pollution}
-Risiko Tempat Kerja: ${workplace}`;
-
-  // Copy to clipboard
-  navigator.clipboard.writeText(summary)
-    .then(() => {
-      alert('Berjaya disalin!');
-    })
-    .catch(err => {
-      alert('Ralat semasa menyalin: ' + err);
-    })
-    .finally(() => {
-      spinner.style.display = 'none'; // Hide the spinner once done
-    });
-}
   <!--Copy Summary End-->
   
      document.getElementById("health-form").addEventListener("submit", function(e) {
