@@ -152,6 +152,7 @@
     .button-container {
       display: flex;
       align-items: center;
+      margin-top: 5px;
     }
     .submit-button {
       position: relative;
@@ -377,7 +378,13 @@
           <label>Tiada risiko pekerjaan <input type="checkbox" name="tempat_kerja" value="Tiada risiko pekerjaan"></label>
         </div>
       </div>
-
+      <!--Copy document into text button -->
+      <div class="button-container">
+      <button type="button" class="submit-button" onclick="copySummary()">
+        Salin Ringkasan<div class="spinner" id="spinner"></div>
+      </button>
+      </div>
+      <!--Submit button-->
       <div class="button-container">
         <button type="submit" class="submit-button">
           Hantar
@@ -405,6 +412,48 @@
       document.getElementById('pumaScoreInput').value = score;
     }
 
+    function copySummary() {
+    const form = document.forms['health-form'];
+    const pumaScore = document.getElementById('pumaScoreInput').value;
+    const nama = form['nama'].value.trim();
+    const nric = form['nric'].value.trim();
+
+    // Helper to collect checked values from groups
+    function getCheckedValues(name) {
+      const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
+      return Array.from(checkboxes).map(cb => cb.value).join(', ') || 'Tiada';
+    }
+
+    // Risks by category
+    const asthma = getCheckedValues('asthma_risk');
+    const copd = getCheckedValues('copd_risk');
+    const cancer = getCheckedValues('lungcancer_risk');
+    const tb = getCheckedValues('tuberculosis_risk');
+    const smoking = getCheckedValues('merokok');
+    const pollution = getCheckedValues('pencemaran');
+    const workplace = getCheckedValues('tempat_kerja');
+
+    // Format text
+    const summary = 
+    `Nama: ${nama}
+NRIC: ${nric}
+PUMA Score: ${pumaScore}
+Risiko asthma: ${asthma}
+Risiko COPD: ${copd}
+Risiko Lung cancer: ${cancer}
+Risiko: Pulmonary TB: ${tb}
+Status rokok: ${smoking}
+Risiko Pencemaran Udara: ${pollution}
+Risiko tempat kerja: ${workplace}`;
+
+    // Copy to clipboard
+    navigator.clipboard.writeText(summary).then(() => {
+      alert('Text copied!');
+    }).catch(err => {
+      alert('Error: ' + err);
+    });
+  }
+      
      document.getElementById("health-form").addEventListener("submit", function(e) {
 	e.preventDefault();
 
