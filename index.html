@@ -390,6 +390,8 @@
   Salin Ringkasan
   <div class="spinner" id="spinnerCopy"></div>
 </button>
+<textarea id="summaryPreview" rows="12" style="width: 100%; margin-top: 10px; display: none;" readonly></textarea>
+
     </form>
   </div>
 
@@ -411,23 +413,23 @@
       document.getElementById('pumaScoreInput').value = score;
     }
   <!--Copy Summary-->
-    
-   function copySummary() {
+
+function copySummary() {
     const spinner = document.getElementById('spinnerCopy');
-    spinner.style.display = 'inline-block'; // Show the spinner
+    const summaryBox = document.getElementById('summaryPreview');
+    spinner.style.display = 'inline-block'; // Show spinner
 
     const form = document.forms['health-form'];
     const pumaScore = document.getElementById('pumaScoreInput')?.value || '';
     const nama = form['nama']?.value.trim().toUpperCase() || '';
     const nric = form['nric']?.value.trim().toUpperCase() || '';
 
-    // Helper to extract selected checkbox values or fallback
+    // Helper function to get checked values
     function getCheckedValues(name) {
       const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
       return checkboxes.length ? Array.from(checkboxes).map(cb => cb.value).join(', ') : 'Tiada';
     }
 
-    // Risk factor sections
     const asthma = getCheckedValues('asthma_risk');
     const copd = getCheckedValues('copd_risk');
     const cancer = getCheckedValues('lungcancer_risk');
@@ -436,7 +438,6 @@
     const pollution = getCheckedValues('pencemaran');
     const workplace = getCheckedValues('tempat_kerja');
 
-    // Formatted multi-line summary in Malay
     const summary =
 `NAMA: ${nama}
 NRIC/PASSPORT: ${nric}
@@ -453,19 +454,24 @@ B. FAKTOR RISIKO LAIN:
 - PENDEDAHAN PENCEMARAN UDARA: ${pollution}
 - PENDEDAHAN DI TEMPAT KERJA: ${workplace}`;
 
-    // Clipboard API copy
+    // Show summary in textarea
+    summaryBox.value = summary;
+    summaryBox.style.display = 'block';
+
+    // Hide spinner before copy prompt
+    spinner.style.display = 'none';
+
+    // Auto copy to clipboard
     navigator.clipboard.writeText(summary)
       .then(() => {
-        alert('Ringkasan berjaya disalin ke papan klip!');
+        alert('Ringkasan berjaya dipaparkan dan disalin ke papan klip!');
       })
       .catch(err => {
         alert('Ralat semasa menyalin: ' + err);
-      })
-      .finally(() => {
-        spinner.style.display = 'none'; // Hide the spinner after process
       });
   }
 
+    
   <!--Copy Summary End-->
   
      document.getElementById("health-form").addEventListener("submit", function(e) {
