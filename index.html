@@ -92,7 +92,7 @@
     }
     .floating-label {
       position: relative;
-      margin-bottom: 20px;
+      margin-bottom: 5px;
     }
     .floating-label input {
       width: 100%;
@@ -112,6 +112,13 @@
       pointer-events: none;
     }
     .floating-label input:focus + label,
+    .floating-label select:focus + label,
+    .floating-label select:valid + label {
+    top: -10px;
+    left: 6px;
+    font-size: 12px;
+    color: #333;
+    }
     .floating-label input:not(:placeholder-shown) + label {
       top: -10px;
       left: 6px;
@@ -350,6 +357,20 @@
         <label for="nric">NRIC / Passport</label>
       </div>
 
+      <div class="floating-label">
+  <input type="number" name="umur" placeholder=" " required min="0" max="120">
+  <label for="umur">Umur (Age)</label>
+</div>
+
+<div class="floating-label">
+  <select name="symptomatic" required>
+    <option value="" disabled selected hidden >Status</option>
+    <option value="Symptomatic">Symptomatic</option>
+    <option value="Not Symptomatic">Not Symptomatic</option>
+  </select>
+  <label for="symptomatic">Status Gejala</label>
+</div>
+            
       <label for="puma"><strong>PUMA Score:</strong></label>
       <input type="number" name="puma" id="pumaScoreInput" required readonly>
 
@@ -415,36 +436,55 @@
       document.getElementById('result').innerText = message;
       document.getElementById('pumaScoreInput').value = score;
     }
-  <!--Copy Summary-->
+  
+    function copySummary() {
+      const spinner = document.getElementById('spinnerCopy');
+      const summaryBox = document.getElementById('summaryPreview');
+      spinner.style.display = 'inline-block'; // Show spinner
 
-function copySummary() {
-    const spinner = document.getElementById('spinnerCopy');
-    const summaryBox = document.getElementById('summaryPreview');
-    spinner.style.display = 'inline-block'; // Show spinner
-
-    const form = document.forms['health-form'];
-    const pumaScore = document.getElementById('pumaScoreInput')?.value || '';
-    const nama = form['nama']?.value.trim().toUpperCase() || '';
-    const nric = form['nric']?.value.trim().toUpperCase() || '';
-
+      const form = document.forms['health-form'];
+      const sexSelect = document.forms['pumaForm']['sex'];
+      const gender = sexSelect.options[sexSelect.selectedIndex].text;
+      const pumaScore = document.getElementById('pumaScoreInput')?.value || '';
+      const pumaMessage = document.getElementById('result').innerText || `PUMA SCORE: ${pumaScore}`;      
+      const nama = form['nama']?.value.trim().toUpperCase() || '';
+      const nric = form['nric']?.value.trim().toUpperCase() || '';
+      const umur = form['umur']?.value.trim() || '';
+      const symptomatic = form['symptomatic']?.value || '';
+      
     // Helper function to get checked values
     function getCheckedValues(name) {
       const checkboxes = document.querySelectorAll(`input[name="${name}"]:checked`);
       return checkboxes.length ? Array.from(checkboxes).map(cb => cb.value).join(', ') : 'Tiada';
     }
 
-    const asthma = getCheckedValues('asthma_risk');
-    const copd = getCheckedValues('copd_risk');
-    const cancer = getCheckedValues('lungcancer_risk');
-    const tb = getCheckedValues('tuberculosis_risk');
-    const smoking = getCheckedValues('merokok');
-    const pollution = getCheckedValues('pencemaran');
-    const workplace = getCheckedValues('tempat_kerja');
+      const asthma = getCheckedValues('asthma_risk');
+      const copd = getCheckedValues('copd_risk');
+      const cancer = getCheckedValues('lungcancer_risk');
+      const tb = getCheckedValues('tuberculosis_risk');
+      const smoking = getCheckedValues('merokok');
+      const pollution = getCheckedValues('pencemaran');
+      const workplace = getCheckedValues('tempat_kerja');
 
-    const summary =
+      // Check lung cancer risk for summary
+      const lungCancerSelected = Array.from(document.querySelectorAll('input[name="lungcancer_risk"]:checked')).map(cb =>   cb.value);
+      const hasAge = lungCancerSelected.includes("Age 50–70 years");
+      const smoker = lungCancerSelected.includes("Current/former smoker");
+      const occupationalOrPollution = lungCancerSelected.includes("Occupational exposures") || lungCancerSelected.includes("Ionizing radiation") || lungCancerSelected.includes("Air pollution");
+      const familyHistoryOrMedical = lungCancerSelected.includes("Family history of lung cancer") || lungCancerSelected.includes("Medical history");
+
+      const isHighLungCancerRisk = hasAge && (smoker || (occupationalOrPollution && familyHistoryOrMedical));
+      const lungCancerMessage = isHighLungCancerRisk
+  ? "*HIGH RISK GROUP*"
+  : "Low risk group";
+            
+      const summary =
 `NAMA: ${nama}
 NRIC/PASSPORT: ${nric}
-PUMA SCORE: ${pumaScore}
+UMUR: ${umur}
+JANTINA: ${gender}
+STATUS GEJALA: ${symptomatic}
+${pumaMessage}
 
 A. RISIKO PENYAKIT:
 - Risiko ASTHMA: ${asthma}
@@ -455,7 +495,10 @@ A. RISIKO PENYAKIT:
 B. FAKTOR RISIKO LAIN:
 - STATUS MEROKOK: ${smoking}
 - PENDEDAHAN PENCEMARAN UDARA: ${pollution}
-- PENDEDAHAN DI TEMPAT KERJA: ${workplace}`;
+- PENDEDAHAN DI TEMPAT KERJA: ${workplace}
+
+LUNG CANCER SCREENING:${lungCancerMessage}
+`;
 
     // Show summary in textarea
     summaryBox.value = summary;
@@ -473,11 +516,8 @@ B. FAKTOR RISIKO LAIN:
         alert('Ralat semasa menyalin: ' + err);
       });
   }
-
-    
-  <!--Copy Summary End-->
   
-     document.getElementById("health-form").addEventListener("submit", function(e) {
+  document.getElementById("health-form").addEventListener("submit", function(e) {
 	e.preventDefault();
 
 	const spinner = document.getElementById("spinner");
@@ -487,36 +527,53 @@ B. FAKTOR RISIKO LAIN:
 	const data = new FormData(form);
 	
 	// Collect all checkboxes from risk sections and group them
-       	const collectCheckboxValues = (name) => {
-     	return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(cb => cb.value).join(', ');
+  const collectCheckboxValues = (name) => {
+  return [...document.querySelectorAll(`input[name="${name}"]:checked`)].map(cb => cb.value).join(', ');
        };
 
 	// Risk groups
  	const asthma = collectCheckboxValues("asthma_risk");
-  	const copd = collectCheckboxValues("copd_risk");
+  const copd = collectCheckboxValues("copd_risk");
  	const lungcancer = collectCheckboxValues("lungcancer_risk");
 	const tuberculosis = collectCheckboxValues("tuberculosis_risk");
 	const merokok = collectCheckboxValues("merokok");
 	const pencemaran = collectCheckboxValues("pencemaran");
  	const tempat_kerja = collectCheckboxValues("tempat_kerja");
 
+    // Extract gender from PUMA form
+    const gender = document.forms['pumaForm']['sex'].options[document.forms['pumaForm']['sex'].selectedIndex].text;
+
+// Lung cancer risk evaluation
+    const lungCancerSelected = Array.from(document.querySelectorAll('input[name="lungcancer_risk"]:checked')).map(cb => cb.value);
+    const hasAge = lungCancerSelected.includes("Age 50–70 years");
+    const smoker = lungCancerSelected.includes("Current/former smoker");
+    const occupationalOrPollution = lungCancerSelected.includes("Occupational exposures") || lungCancerSelected.includes("Ionizing radiation") || lungCancerSelected.includes("Air pollution");
+    const familyHistoryOrMedical = lungCancerSelected.includes("Family history of lung cancer") || lungCancerSelected.includes("Medical history");
+
+      const isHighLungCancerRisk = hasAge && (smoker || (occupationalOrPollution && familyHistoryOrMedical));
+      const lungCancerStatus = isHighLungCancerRisk ? "High Risk" : "Low Risk";  
+    
 	// Prepare data object
       const payload = {
-    	nama: data.get("nama").toUpperCase(),
-   	nric: data.get("nric").toUpperCase(),
-    	puma: data.get("puma"),
-   	asthma,
-   	copd,
-    	lungcancer,
-    	tuberculosis,
-    	merokok,
-    	pencemaran,
-    	tempat_kerja,
-    	timestamp: new Date().toISOString()
+    	  nama: data.get("nama").toUpperCase(),
+   	    nric: data.get("nric").toUpperCase(),
+        umur: data.get("umur"),
+        gender: document.forms['pumaForm']['sex'].options[document.forms['pumaForm']['sex'].selectedIndex].text,
+        symptomatic: data.get("symptomatic"),
+      	puma: data.get("puma"),
+   	    lungCancerStatus: lungCancerStatus,
+        asthma,
+   	    copd,
+    	  lungcancer,
+    	  tuberculosis,
+    	  merokok,
+    	  pencemaran,
+    	  tempat_kerja,
+    	  timestamp: new Date().toISOString()
        };
 
 	// Submit to Google Apps Script Web App
- 	fetch("https://script.google.com/macros/s/AKfycbye15OVIa-gHv6ddAzRBw24lIzerAyNHRevYJB6fvivDkFLUMbeJbPtrrpexDqcsHjmfg/exec", {
+ 	fetch("https://script.google.com/macros/s/AKfycbxtrLc3RJelul2VbkmiglTsSC3J9m5rB-opQqbkU_oCnvzAhspDtL_HUnWvrWTfnrhovQ/exec", {
     	method: "POST",
     	mode: "no-cors",
     	headers: {
@@ -530,7 +587,14 @@ B. FAKTOR RISIKO LAIN:
     	alert("Maklumat berjaya dihantar!");
     	form.reset();
     	document.getElementById("result").innerText = "";
-    	document.getElementById("pumaScoreInput").value = "";
+      document.getElementById("pumaScoreInput").value = "";
+      document.getElementById("summaryPreview").style.display = "none";
+      document.getElementById("summaryPreview").value = "";
+      document.getElementById("lungCancerAlert").style.display = "none";
+    
+    // Reset PUMA form selects
+      const pumaForm = document.forms['pumaForm'];
+      pumaForm.reset();
     
     // Clear risk checkboxes outside the form manually
       const riskCheckboxNames = [
