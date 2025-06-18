@@ -407,15 +407,20 @@
         </button>
       </div>
       <!--Copy document into text button -->
-      <button type="button" class="submit-button" onclick="copySummary()"   style="background-color:red; color:white; margin-top:5px;">
-  Papar Ringkasan
-  <div class="spinner" id="spinnerCopy"></div>
-</button>
-<textarea id="summaryPreview" rows="12" style="width: 100%; margin-top: 10px; display: none;" readonly></textarea>
-<!--Recommendation area-->
-<div id="lungCancerAlert" style="display: none; background-color: #ffcccc; color: red; font-weight: bold; padding: 10px; margin-top: 10px; border: 2px solid red; border-radius: 6px; text-align: center;">
+    <button type="button" class="submit-button" onclick="copySummary()"   style="background-color:red; color:white; margin-             top:5px;">
+           Papar Ringkasan
+        <div class="spinner" id="spinnerCopy"></div>
+    </button>
+      
+    <textarea id="summaryPreview" rows="12" style="width: 100%; margin-top: 10px; display: none;" readonly></textarea>
+    <!--Recommendation area-->
+    <div id="lungCancerAlert" style="display: none; background-color: #ffcccc; color: red; font-weight: bold; padding: 10px;    margin-top: 10px; border: 2px solid red; border-radius: 6px; text-align: center;">
   HIGH RISK GROUP: SUGGEST FOR SCREENING OF LUNG CANCER
-</div>
+    </div>
+      <!-- Clear All Button -->
+    <button type="button" class="submit-button" style="background-color: grey; margin-top:5px;" onclick="clearAll()">
+        Clear All
+      </button>
     </form>
   </div>
 
@@ -639,6 +644,41 @@ LUNG CANCER SCREENING:${lungCancerMessage}
     const alertBox = document.getElementById("lungCancerAlert");
     alertBox.style.display = highRisk ? "block" : "none";
   }     
+        
+    function clearAll() {
+  const form = document.getElementById("health-form");
+  const pumaForm = document.forms['pumaForm'];
+
+  // Reset forms
+  form.reset();
+  pumaForm.reset();
+
+  // Clear PUMA result and score
+  document.getElementById("result").innerText = "";
+  document.getElementById("pumaScoreInput").value = "";
+
+  // Hide and clear summary box
+  const summaryBox = document.getElementById("summaryPreview");
+  summaryBox.style.display = "none";
+  summaryBox.value = "";
+
+  // Hide lung cancer alert
+  document.getElementById("lungCancerAlert").style.display = "none";
+
+  // Uncheck all checkboxes
+  const allCheckboxes = document.querySelectorAll('input[type="checkbox"]');
+  allCheckboxes.forEach(cb => cb.checked = false);
+
+  // Reset all selects
+  document.querySelectorAll('select').forEach(select => {
+    if (select.options.length > 0) {
+      select.selectedIndex = 0;
+    }
+  });
+
+  alert("All selection cleared.");
+}
+
     </script>
 </body>
 </html>
