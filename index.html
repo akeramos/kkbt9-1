@@ -6,24 +6,24 @@
   <title>Saringan Kesihatan Paru-paru</title>
   <style>
     .page-title {
-  text-align: center;
-  padding: 10px;
-  margin-bottom: 20px;
-  background-color: #004d4d ; 
-  color: white; 
-  border-radius: 10px;
-  font-size: 20px;
-  font-weight: bold;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-}   
+      text-align: center;
+      padding: 10px;
+      margin-bottom: 20px;
+      background-color: #004d4d; 
+      color: white; 
+      border-radius: 10px;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    }   
     body {
-  font-family: 'Roboto', sans-serif;
-  font-size: clamp(0.95rem, 1.5vw, 1rem);
-  background-color: #eaf4fc;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  padding: clamp(10px, 5vw, 40px);
+      font-family: 'Roboto', sans-serif;
+      font-size: clamp(0.95rem, 1.5vw, 1rem);
+      background-color: #eaf4fc;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      padding: clamp(10px, 5vw, 40px);
     }
     .form-container, .puma-container{
       max-width: 600px;
@@ -203,32 +203,33 @@
     }
   }
   </style>
-</head>
-<body>
-  <div class="page-title">  <!-- Page title -->
-  <h1>SARINGAN KESIHATAN PARU-PARU</h1>
-  <h3>Klinik Kesihatan Batu 9, Cheras</h3>
-  </div>
-  
-  <!-- Semak risiko -->
-<div class="info-container" style="
-    max-width: 600px;
-    margin: 10px auto;
-    background: rgba(255, 140, 0, 0.9);
-    padding: 20px;
-    border: 2px solid black;
-    border-radius: 8px;
-    font-size: 16px;
-    line-height: 1.5;
-    color: #000;
-">
-  <p>
-  <strong>Sila semak kumpulan risiko yang berkaitan</strong><br>
-  <strong>Sekiranya YA dan berumur:</strong><br>
-  40-49 tahun, sila lakukan Ujian Saringan PUMA.<br>
-  50-70 tahun, sila lakukan Ujian Saringan PUMA dan Saringan Risiko Kanser Paru-Paru.
-  </p>
-</div>
+  </head>
+   
+  <body>
+    <div class="page-title">  <!-- Page title -->  
+      <h1>SARINGAN KESIHATAN PARU-PARU</h1>
+      <h3>KLINIK KESIHATAN BATU 9, CHERAS</h3>
+    </div>
+        <!-- Semak risiko -->
+    <div class="info-container" 
+         style=
+         "max-width: 600px;
+          margin: 10px auto;
+          background: #e68a00;
+          padding: 20px;
+          border: 2px solid black;
+          border-radius: 8px;
+          font-size: 16px;
+          line-height: 2;                                                             
+          color: #f2f2f2; ">
+      <p style= "text-align: center;">
+        <strong>Sila semak kumpulan risiko yang berkaitan</strong><br>
+        <strong>Sekiranya YA dan berumur:</strong><br> </p>
+      <p>
+        ✅  40-49 tahun, lakukan Ujian Saringan PUMA.<br>
+        ✅  50-70 tahun, lakukan Ujian Saringan PUMA dan Saringan Risiko Kanser Paru-Paru.
+      </p>
+    </div>
   
   <!-- List of risk -->
   <div class="grid-row">
@@ -252,8 +253,10 @@
       <ul>
         <li><label><input type="checkbox" name="copd_risk" value="Age 40 years and above" /> Age 40 years and above</label></li>
         <li><label><input type="checkbox" name="copd_risk" value="History of smoking" /> History of smoking</label></li>
-        <li><label><input type="checkbox" name="copd_risk" value="Long-term exposure to irritants" /> Long-term exposure to irritants</label></li>
-        <li><label><input type="checkbox" name="copd_risk" value="Alpha-1 antitrypsin deficiency" /> Alpha-1 antitrypsin deficiency</label></li>
+        <li><label><input type="checkbox" name="copd_risk" value="Long-term exposure to irritants" /> Long-term exposure to irritants
+          </label></li>
+        <li><label><input type="checkbox" name="copd_risk" value="Alpha-1 antitrypsin deficiency" /> Alpha-1 antitrypsin deficiency
+          </label></li>
         <li><label><input type="checkbox" name="copd_risk" value="Combination of the above" /> Combination of the above</label></li>
       </ul>
     </div>
@@ -271,8 +274,10 @@
         <li><label><input type="checkbox" name="lungcancer_risk" value="Ionizing radiation" /> Ionizing radiation</label></li>
         <li><label><input type="checkbox" name="lungcancer_risk" value="Occupational exposures" /> Occupational exposures</label></li>
         <li><label><input type="checkbox" name="lungcancer_risk" value="Air pollution" /> Air pollution</label></li>
-        <li><label><input type="checkbox" name="lungcancer_risk" value="Family history of lung cancer" /> Family history of lung cancer</label></li>
-        <li><label><input type="checkbox" name="lungcancer_risk" value="Medical history" /> Medical history (pneumonia, COPD, TB)</label></li>
+        <li><label><input type="checkbox" name="lungcancer_risk" value="Family history of lung cancer" /> Family history of lung cancer</label> 
+        </li>
+        <li><label><input type="checkbox" name="lungcancer_risk" value="Medical history" /> Medical history (pneumonia, COPD, TB)</label>   
+        </li>
       </ul>
     </div>
 
@@ -291,137 +296,151 @@
       </ul>
     </div>
   </div>
-  
-  <div class="puma-container">
-    <h2>PUMA Score Calculator</h2>
-    <form id="pumaForm">
-      <label>1. Gender:
-        <select name="sex">
-          <option value="0">Female</option>
-          <option value="1">Male</option>
-        </select>
-      </label>
-      <label>2. Age:
-        <select name="age">
-          <option value="0">40–49 years</option>
-          <option value="1">50–59 years</option>
-          <option value="2">60 years and above</option>
-        </select>
-      </label>
-      <label>3. Smoking history (pack-years):
-        <select name="smoking">
-          <option value="0">Less than 20</option>
-          <option value="1">20–30</option>
-          <option value="2">More than 30</option>
-        </select>
-      </label>
-      <label>4. Dyspnea (shortness of breath):
-        <select name="dyspnea">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </label>
-      <label>5. Chronic phlegm (≥3 months):
-        <select name="phlegm">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </label>
-      <label>6. Chronic cough:
-        <select name="cough">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </label>
-      <label>7. Any advised to perform Spirometry before:
-        <select name="advice">
-          <option value="0">No</option>
-          <option value="1">Yes</option>
-        </select>
-      </label>
-      <button type="button" onclick="calculate()">Calculate Score</button>
-    </form>
-    <div id="result"></div>
-  </div>
 
-  <div class="form-container">
-    <h2>SARINGAN KESIHATAN PARU-PARU</h2>
-  
-    <form id="health-form">
-      <div class="floating-label">
-        <input type="text" name="nama" placeholder=" " required autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false">
-        <label for="nama">Nama</label>
+        <div class="puma-container">
+          <h2>PUMA Score Calculator</h2>
+          <form id="pumaForm">
+            <label>1. Gender:
+              <select name="sex">
+                <option value="0">Female</option>
+                <option value="1">Male</option>
+              </select>
+            </label>
+            <label>2. Age:
+              <select name="age">
+                <option value="0">40–49 years</option>
+                <option value="1">50–59 years</option>
+                <option value="2">60 years and above</option>
+              </select>
+            </label>
+            <label>3. Smoking history (pack-years):
+              <select name="smoking">
+                <option value="0">Less than 20</option>
+                <option value="1">20–30</option>
+                <option value="2">More than 30</option>
+              </select>
+            </label>
+            <label>4. Dyspnea (shortness of breath):
+              <select name="dyspnea">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </label>
+            <label>5. Chronic phlegm (≥3 months):
+              <select name="phlegm">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </label>
+            <label>6. Chronic cough:
+              <select name="cough">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </label>
+            <label>7. Any advised to perform Spirometry before:
+              <select name="advice">
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+              </select>
+            </label>
+            <button type="button" onclick="calculate()">Calculate Score</button>
+          </form>
+          <div id="result"></div>
+        </div>
+
+        <div class="form-container">
+          <h2>SARINGAN KESIHATAN PARU-PARU</h2>
+
+          <form id="health-form">
+            <div class="floating-label">
+              <input type="text" name="nama" placeholder=" " required autocapitalize="characters" 
+                     autocomplete="off" autocorrect="off" spellcheck="false">
+              <label for="nama">Nama</label>
+            </div>
+
+            <div class="floating-label">
+              <input type="text" name="nric" placeholder=" " required autocapitalize="characters" 
+                     autocomplete="off" autocorrect="off" spellcheck="false">
+              <label for="nric">NRIC / Passport</label>
+            </div>
+
+            <div class="floating-label">
+        <input type="number" name="umur" placeholder=" " required min="0" max="120">
+        <label for="umur">Umur (Age)</label>
       </div>
 
-      <div class="floating-label">
-        <input type="text" name="nric" placeholder=" " required autocapitalize="characters" autocomplete="off" autocorrect="off" spellcheck="false">
-        <label for="nric">NRIC / Passport</label>
-      </div>
+            <div class="floating-label">
+              <select name="symptomatic" required>
+                <option value="" disabled selected hidden >Status</option>
+                <option value="Symptomatic">Symptomatic</option>
+                <option value="Not Symptomatic">Not Symptomatic</option>
+              </select>
+              <label for="symptomatic">Status Gejala</label>
+            </div>
+            <label for="puma"><strong>PUMA Score:</strong></label>
+            <input type="number" name="puma" id="pumaScoreInput" required readonly>
 
-      <div class="floating-label">
-  <input type="number" name="umur" placeholder=" " required min="0" max="120">
-  <label for="umur">Umur (Age)</label>
-</div>
+            <div class="section">
+              <label><strong>A. Merokok</strong></label>
+              <div class="checkbox-group">
+                <label>Adakah anda merokok <input type="checkbox" name="merokok" value="Masih merokok"></label>
+                <label>Adakah anda bekas perokok <input type="checkbox" name="merokok" value="Pernah merokok"></label>
+                <label>Adakah anda terdedah kepada asap rokok <input type="checkbox" name="merokok" value="Terdedah kepada asap rokok">
+                </label>
+                <label>Tidak merokok <input type="checkbox" name="merokok" value="Tidak merokok"></label>
+              </div>
+            </div>
 
-<div class="floating-label">
-  <select name="symptomatic" required>
-    <option value="" disabled selected hidden >Status</option>
-    <option value="Symptomatic">Symptomatic</option>
-    <option value="Not Symptomatic">Not Symptomatic</option>
-  </select>
-  <label for="symptomatic">Status Gejala</label>
-</div>
+            <div class="section">
+              <label><strong>B. Pencemaran Alam Sekitar</strong></label>
+              <div class="checkbox-group">
+                <label>Pencemaran udara seperti asap kenderaan <input type="checkbox" name="pencemaran" value="Terdedah kepada pencemaran">
+                </label>
+                <label>Tidak terdedah <input type="checkbox" name="pencemaran" value="Tidak terdedah"></label>
+              </div>
+            </div>
+
+            <div class="section">
+              <label><strong>C. Pendedahan di tempat Kerja</strong></label>
+              <div class="checkbox-group">
+                <label>Asap industri/ bahan bakar/ bahan kimia/ radiasi 
+                  <input type="checkbox" 
+                         name="tempat_kerja" 
+                         value="Pekerjaan berisiko">                
+                </label>
+                <label>Tiada risiko pekerjaan <input type="checkbox" name="tempat_kerja" value="Tiada risiko pekerjaan"></label>
+              </div>
+            </div>
+            <!--Submit button-->
+            <div class="button-container">
+              <button type="submit" class="submit-button" 
+                      style="background-color: #000099; color:white;">
+                Hantar
+                <div class="spinner" id="spinner"></div>
+              </button>
+            </div>
+            <!--Copy document into text button -->
+            <div class="button-container">
+              <button type="button" class="submit-button" onclick="copySummary()" 
+                      style="background-color: grey; color:white;">
+              Papar Ringkasan
+                <div class="spinner" id="spinnerCopy"></div>
+              </button>
+              <button type="button" class="submit-button" 
+                    style="margin-left= 5px; background-color: #b30000;" onclick="clearAll()">
+              Clear All
+            </button>
+            </div>  
+            <textarea id="summaryPreview" rows="12" style="width: 100%; margin-top: 10px; display: none;" readonly></textarea>
+            <!--Recommendation area-->
+            <div id="lungCancerAlert" 
+                 style="display: none; background-color: #ffcccc; color: red; font-weight: bold; padding: 10px;
+                        margin-top: 10px; border: 2px solid red; border-radius: 6px; text-align: center;">
+              HIGH RISK GROUP: SUGGEST FOR SCREENING OF LUNG CANCER
+            </div>
+            <!-- Clear All Button -->
             
-      <label for="puma"><strong>PUMA Score:</strong></label>
-      <input type="number" name="puma" id="pumaScoreInput" required readonly>
-
-      <div class="section">
-        <label><strong>A. Merokok</strong></label>
-        <div class="checkbox-group">
-          <label>Adakah anda merokok <input type="checkbox" name="merokok" value="Masih merokok"></label>
-          <label>Adakah anda bekas perokok <input type="checkbox" name="merokok" value="Pernah merokok"></label>
-          <label>Adakah anda terdedah kepada asap rokok <input type="checkbox" name="merokok" value="Terdedah kepada asap rokok"></label>
-          <label>Tidak merokok <input type="checkbox" name="merokok" value="Tidak merokok"></label>
-        </div>
-      </div>
-
-      <div class="section">
-        <label><strong>B. Pencemaran Alam Sekitar</strong></label>
-        <div class="checkbox-group">
-          <label>Pencemaran udara seperti asap kenderaan <input type="checkbox" name="pencemaran" value="Terdedah kepada pencemaran"></label>
-          <label>Tidak terdedah <input type="checkbox" name="pencemaran" value="Tidak terdedah"></label>
-        </div>
-      </div>
-
-      <div class="section">
-        <label><strong>C. Pendedahan di tempat Kerja</strong></label>
-        <div class="checkbox-group">
-          <label>Asap industri/ bahan bakar/ bahan kimia/ radiasi <input type="checkbox" name="tempat_kerja" value="Pekerjaan berisiko"></label>
-          <label>Tiada risiko pekerjaan <input type="checkbox" name="tempat_kerja" value="Tiada risiko pekerjaan"></label>
-        </div>
-      </div>
-      <!--Submit button-->
-      <div class="button-container">
-        <button type="submit" class="submit-button">
-          Hantar
-          <div class="spinner" id="spinner"></div>
-        </button>
-      </div>
-      <!--Copy document into text button -->
-    <button type="button" class="submit-button" onclick="copySummary()"   style="background-color:red; color:white; margin-             top:5px;">
-           Papar Ringkasan
-        <div class="spinner" id="spinnerCopy"></div>
-    </button>
-      
-    <textarea id="summaryPreview" rows="12" style="width: 100%; margin-top: 10px; display: none;" readonly></textarea>
-    <!--Recommendation area-->
-    <div id="lungCancerAlert" style="display: none; background-color: #ffcccc; color: red; font-weight: bold; padding: 10px;    margin-top: 10px; border: 2px solid red; border-radius: 6px; text-align: center;">
-  HIGH RISK GROUP: SUGGEST FOR SCREENING OF LUNG CANCER
-    </div>
-      <!-- Clear All Button -->
-    <button type="button" class="submit-button" style="background-color: grey; margin-top:5px;" onclick="clearAll()">
-        Clear All
-      </button>
     </form>
   </div>
 
