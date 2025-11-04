@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>CXR Screening Dashboard</title>
+    <title>Screening Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
       body {
@@ -51,6 +51,7 @@
   </head>
   <body>
     <h1>🩺 Saringan Kesihatan Paru Paru Kebangsaan 2025-2030</h1>
+
     <div class="dashboard">
       <div class="card">
         <div class="title">Jumlah Pesakit Disaring</div>
@@ -71,8 +72,14 @@
     </div>
 
     <script>
-      function loadData() {
-        google.script.run.withSuccessHandler(renderDashboard).getDashboardData();
+      async function loadData() {
+        try {
+          const response = await fetch("https://script.google.com/macros/s/AKfycbwwyGNFiiGcPxpwON6uw5odKaZzeRZ8ctr4fyKpZpGLhCHtAzwPzM4LTTqHhaYPYGW4/exec");
+          const data = await response.json();
+          renderDashboard(data);
+        } catch (err) {
+          console.error("Error fetching data:", err);
+        }
       }
 
       function renderDashboard(data) {
